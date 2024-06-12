@@ -1,0 +1,41 @@
+version: '3.8'
+services:
+  t1:
+    image: postgres
+    environment:
+      - "POSTGRES_DB=Jardineria"
+      - "POSTGRES_USER=postgres"
+      - "POSTGRES_PASSWORD=pswJardineria"
+      - "DB_HOST=172.150.10.2"
+    container_name: CMPpostgres
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
+    networks: 
+      netred:
+          ipv4_address: 172.150.10.1
+    ports:
+      - "5433:5432"
+  t2:
+    container_name: cmpappjardineria
+    image: cmpappjardineria
+    env_file:
+      - ./cmpenvironment.yml
+    build:
+      context: ${CONTEXTO}
+      dockerfile: ./dockerfiles/dockerfile
+      args:
+        - CONTEXT=${CONTEXTO}
+    volumes:
+      - ./logs:/var/websitelogs
+    networks: 
+      netred:
+          ipv4_address: 172.150.10.2
+    ports:
+      - "80:80"
+      - "3000:3001"
+networks:
+  netred:
+    ipam:
+      driver: default 
+      config:
+        - subnet: 172.150.10.0/24

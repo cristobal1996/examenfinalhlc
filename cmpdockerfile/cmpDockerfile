@@ -1,0 +1,22 @@
+FROM nginx
+
+RUN apt-get update && apt-get install -y \ 
+    nano \ 
+    net-tools \
+    iputils-ping \ 
+    dos2unix \
+    openssh-server \
+    openssh-client \ 
+    git \ 
+    curl \
+    nodejs \ 
+    npm \
+    yarn 
+
+WORKDIR /root
+RUN mkdir -p /root/api
+COPY start.sh /root/start.sh
+RUN chmod u+x /root/start.sh
+ENTRYPOINT ["/root/start.sh"]
+EXPOSE 80
+EXPOSE 3001
