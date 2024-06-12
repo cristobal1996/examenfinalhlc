@@ -6,7 +6,6 @@ services:
       - "POSTGRES_DB=Jardineria"
       - "POSTGRES_USER=postgres"
       - "POSTGRES_PASSWORD=pswJardineria"
-      - "DB_HOST=172.150.10.2"
     container_name: CMPpostgres
     volumes:
       - ./postgres:/var/lib/postgresql/data
@@ -18,15 +17,12 @@ services:
   t2:
     container_name: cmpappjardineria
     image: cmpappjardineria
-    env_file:
-      - ./cmpenvironment.yml
-    build:
-      context: ${CONTEXTO}
-      dockerfile: ./dockerfiles/dockerfile
-      args:
-        - CONTEXT=${CONTEXTO}
-    volumes:
-      - ./logs:/var/websitelogs
+    environment:
+      - USER=mjmgtaller
+      - PASSWORD=mjmgtaller
+      - REPO=https://github.com/morgadodesarrollador/ApiJardineriaNest.git
+      - DB_HOST=172.20.10.10
+      - DB_PORT=5432
     networks: 
       netred:
           ipv4_address: 172.150.10.2

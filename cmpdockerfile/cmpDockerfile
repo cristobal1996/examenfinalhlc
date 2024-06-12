@@ -10,8 +10,7 @@ RUN apt-get update && apt-get install -y \
     git \ 
     curl \
     nodejs \ 
-    npm \
-    yarn 
+    npm 
 
 WORKDIR /root
 RUN mkdir -p /root/api
